@@ -1,0 +1,60 @@
+function flash()
+{
+  LED1.write(1);
+  setTimeout(function() {
+    LED1.write(0);
+    setTimeout(function() {
+      LED2.write(1);
+      setTimeout(function() {
+        LED2.write(0);
+        setTimeout(function() {
+          LED3.write(1);
+          setTimeout(function() {
+            LED3.write(0);
+          }, 500);
+        }, 100);
+      }, 500);
+    }, 100);
+   }, 500);
+}
+
+var temps = [];
+var prev = 0;
+var min = 1000;
+var max = 0;
+
+function readTemp()
+{
+  
+  //var t = Puck.magTemp();
+  var t = E.getTemperature();
+  var d = new Date();
+  
+  if (t < min)
+  {
+    min = t;
+  }
+  
+  if (t > max)
+  {
+     max = t;
+  }
+  
+  var data = { t: t, date: d, min: min, max: max};
+
+  digitalPulse(t > prev ? LED2 : (t < prev ? LED1 : LED3), 1,100);
+  
+  if (prev != t)
+  {
+    temps.push(data);
+  }
+
+  console.log(data);
+  prev = t;
+}
+
+flash();
+
+setWatch(flash, BTN, {edge: 'falling', repeat: true});
+
+setInterval(readTemp, 30000);

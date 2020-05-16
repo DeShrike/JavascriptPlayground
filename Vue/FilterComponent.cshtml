@@ -1,0 +1,26 @@
+<div id="product-filter">
+    <div class="well" style="background-color: #fff;">
+        <div v-on:click="clearFilters" style="border: 0.5px solid black; padding: 10px; text-align: center; font-weight: bold; border-radius: 4px; margin-top: 10px; cursor: pointer;">
+            @Html.Translation("productoverview.erasefilters", "Filters wissen")
+        </div>
+        <div style="border: 0.5px solid black; padding: 10px; text-align: center; font-weight: bold; border-radius: 4px; margin-top: 10px; cursor: pointer;">
+            <div v-if="collapseAll" v-on:click="collapseFilters">@Html.Translation("productoverview.collapsefilters", "Alle filters dichtklappen")</div>
+            <div v-if="!collapseAll" v-on:click="openFilters">@Html.Translation("productoverview.openfilters", "Alle filters openklappen")</div>
+        </div>
+        <div class="nt-filterblock margintop-sm">
+            <div v-for="filterGroup in filterGroups" class="margintop-lg">
+                <div v-on:click="toggleFilterGroup(filterGroup)" style="font-size: 22px; border-bottom: 0.5px solid #475054; font-weight: bold;">
+                    {{filterGroup.name}}<i v-bind:class="filterGroup.caretClass" aria-hidden="true" style="margin-top: 7px;"></i>
+                </div>
+                <div v-bind:class="filterGroup.isOpenClass" style="font-size: 16px; margin-top: 10px;">
+                    <template v-for="filter in filterGroup.filters">
+                        <input type="checkbox" v-model="filter.isSelected" v-bind:value="filter.id" v-bind:id="'cb' + filter.id">
+                        <label class="nt-fullwidth-checkbox" v-bind:for="'cb' + filter.id">
+                            {{filter.name}}
+                        </label>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

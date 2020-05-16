@@ -1,0 +1,15 @@
+<h1> Kind 1 </h1>
+<ul>
+  <% names.forEach(function(name){ %>
+    <li><%= name %></li>
+  <% })%>
+
+</ul>
+
+<% if (names.length > 2) { %>
+	<p>Meer dan 2</p>
+<% } %>
+
+<% if (names.length > 4) { %>
+	<p>Meer dan 4</p>
+<% } %>

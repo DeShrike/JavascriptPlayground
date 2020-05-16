@@ -1,0 +1,155 @@
+<html>
+<head>
+    <title>Vue Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+
+<style>
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity .5s;
+          }
+          .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+            opacity: 0;
+          }
+</style>
+
+
+    <div id="app">
+        <div>{{ message1 }}</div>
+        <span v-bind:title="message2">
+            Hover your mouse over me for a few seconds
+            to see my dynamically bound title!
+        </span>
+        <div v-if="seen">Now you see me</div>
+        <ol>
+            <li v-for="todo in todos">
+                {{ todo.text }}
+            </li>
+        </ol>
+        <div>
+            <p>{{ message3 }}</p>
+            <input v-model="message3">
+        </div>
+        <div>
+            <p>{{ message3 | capitalize }}</p>
+            <button v-on:click="reverseMessage">Reverse Message</button>
+        </div>
+    </div>
+
+    <hr/>
+
+    <div id="appf">
+
+        <h2>filters</h2>
+
+        <div v-for="filter in filters" v-bind:data_fid="filter.fid">
+            <div>
+                <div v-on:click="toggleFilterGroup(filter)">{{ filter.text }}</div>
+
+                <transition name="fade">
+                    <div v-show="filter.open">
+                        <ul v-for="(val, index) in filter.values">
+
+                            <li v-bind:data_vid="val.vid" v-if="filter.showAll || index < 3">
+                                <input type="checkbox" v-bind:id="makeValueId(filter.fid,val.vid)" v-model="val.selected" v-on:click="filterChanged(filter,val)">
+                                <label v-bind:for="makeValueId(filter.fid,val.vid)">{{ val.text }} {{ index }}</label> 
+                            </li>
+
+                        </ul>
+
+                        <div v-if="filter.values.length > 3" v-show="!filter.showAll " v-on:click="toonAlle(filter)">  - Toon meer</div>
+                        <div v-show="filter.showAll" v-on:click="toonAlle(filter)">  - Toon minder</div>
+
+                    </div>
+                </transition>
+            </div>  
+        </div>
+
+        <h2>Order</h2>
+
+        <div>
+            Quantity: <input v-model.number="quantity" type="number" v-on:keyup.13="handleEnter">
+        </div>
+
+    </div>
+
+
+<script>
+
+var app = new Vue({
+    el: '#app',
+    data: {
+        message1: 'Hello Vue!',
+        message2: 'You loaded this page on ' + new Date().toLocaleString(),
+        message3: 'Hello Vue.js!',
+        seen: true,
+        todos: [
+            { text: 'Learn JavaScript' },
+            { text: 'Learn Vue' },
+            { text: 'Build something awesome' }
+        ]
+    },
+    methods: {
+        reverseMessage: function () {
+            this.message3 = this.message3.split('').reverse().join('')
+        }
+    },
+    filters: {
+        capitalize: function (value) {
+            if (!value) return ''
+            value = value.toString()
+            return value.charAt(0).toUpperCase() + value.slice(1)
+        }
+    }
+})
+
+    var appf = new Vue({
+        el: '#appf',
+        data: {
+            message1: 'Hello Vue!',
+            message2: 'You loaded this page on ' + new Date().toLocaleString(),
+            message3: 'Hello Vue.js!',
+            seen: true,
+            quantity: 0,
+            filters: [
+                { fid: 1, text: 'Producttype', open: true, showAll: false, values: [ { vid: 10, text: "Bocht", selected: false }, { vid: 20, text: "Buis", selected: true } ] },
+                { fid: 2, text: 'Grondstof', open: false, showAll: false, values: [ { vid: 11, text: "PVC", selected: false }, { vid: 22, text: "Messing", selected: false }, { vid: 23, text: "Hout", selected: false }, { vid: 24, text: "Plastic", selected: true }, { vid: 25, text: "Aluminium", selected: false } ] }
+            ]
+        },
+        methods: {
+            reverseMessage: function () {
+                this.message3 = this.message3.split('').reverse().join('')
+            },
+            makeValueId: function(id1, id2) {
+                return "P" + id1 + "V" + id2;
+            },
+            toggleFilterGroup: function(filter) {
+                filter.open = !filter.open;
+            },
+            toonAlle: function(filter) {
+                filter.showAll = !filter.showAll;
+            },
+            handleEnter: function() {
+                this.quantity = 0;
+            },
+            filterChanged: function(filter, value) {
+                //alert(value.vid);
+            }
+        },
+        filters: {
+            capitalize: function (value) {
+                if (!value) return '';
+                value = value.toString();
+                return value.charAt(0).toUpperCase() + value.slice(1);
+            }
+        }
+})
+
+        
+
+
+</script>
+
+</body>
+</html>

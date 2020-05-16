@@ -1,0 +1,24 @@
+import processing.video.*;
+Capture camA;
+Capture camB;
+String[] cameras;
+
+void setup(){
+cameras=Captures.list();
+camA = new Capture(this,1280,960,cameras[15]);
+camB = new Capture(this,1280,960,cameras[1]);
+camA.start(); 
+camB.start();
+}
+void draw() {
+  image(camA, 100, 100, 360,240);
+  image(camB, 500, 100, 360,240);
+}
+
+void captureEvent(Capture c) {
+  if(c==camA){   
+    camA.read();
+  }else if(c==camB) {
+    camB.read();
+  }
+}

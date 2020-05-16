@@ -1,0 +1,14 @@
+<html>
+<head>
+	<title><%= model.title %></title>
+</head>
+<body>
+	<% for (var i=1; i<10; i++) { %>
+	<% if (model.type === 1) { %>
+	<%- include('_body1.ejs') %>
+	<% } else if (model.type == 2) { %>
+	<%- include('_body2.ejs') %>
+	<% } %>
+	<% } %>
+</body>
+</html>

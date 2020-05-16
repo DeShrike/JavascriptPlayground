@@ -1,0 +1,13 @@
+<html>
+  <head>
+    <%- include('_header.ejs') %>
+  </head>
+  <body>
+    <% if (kind === 1) { %>
+	    <%- include('_body1.ejs') %>
+	<% } else if (kind === 2) {  %>
+	    <%- include('_body2.ejs') %>
+	<% } %>
+
+  </body>
+</html>
